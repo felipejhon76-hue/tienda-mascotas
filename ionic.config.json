@@ -1,0 +1,7 @@
+{
+  "name": "tienda-mascotas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

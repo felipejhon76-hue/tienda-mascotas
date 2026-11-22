@@ -1,0 +1,157 @@
+
+<ion-header>
+  <ion-toolbar>
+
+    <!-- BOTON DEL MENU -->
+
+    <ion-buttons slot="start">
+      <ion-menu-button
+        menu="menu-principal">
+      </ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Tienda de Mascotas</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- PULL-TO-REFRESH -->
+
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="actualizarCatalogo($event)">
+
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando catálogo...">
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+  <!-- CATALOGO -->
+
+  <h2 class="titulo-catalogo">
+    Catálogo de productos
+  </h2>
+
+  <p class="subtitulo">
+    Encuentra lo mejor para tu mascota.
+  </p>
+
+  @if (mensajeActualizacion) {
+
+    <p class="mensaje-actualizacion">
+      {{ mensajeActualizacion }}
+    </p>
+
+  }
+
+  <!-- RESUMEN DEL CARRITO -->
+
+  <div class="resumen-carrito">
+
+    <span>Mi carrito</span>
+
+    <ion-badge color="primary">
+      {{ tienda.cantidadCarrito }} productos
+    </ion-badge>
+
+    <strong>
+      RD$ {{ tienda.totalCarrito }}
+    </strong>
+
+  </div>
+
+  <!-- IR AL CARRITO -->
+
+  <ion-button
+    expand="block"
+    routerLink="/carrito">
+
+    Ver mi carrito
+
+  </ion-button>
+
+  <!-- PRODUCTOS -->
+
+  @for (producto of tienda.productos; track producto.id) {
+
+    <ion-card>
+      <ion-card-content>
+
+        <div class="producto">
+
+          <div class="producto-info">
+
+            <!-- LONG-PRESS -->
+
+            <div
+              style="user-select: none; -webkit-user-select: none; touch-action: pan-y;"
+              (pointerdown)="iniciarPulsacion($event, producto)"
+              (pointermove)="moverPulsacion($event)"
+              (pointerup)="cancelarPulsacion()"
+              (pointercancel)="cancelarPulsacion()"
+              (pointerleave)="cancelarPulsacion()"
+              (contextmenu)="$event.preventDefault()">
+
+              <h2>{{ producto.nombre }}</h2>
+
+              <p>{{ producto.descripcion }}</p>
+
+            </div>
+
+            <h3>
+              RD$ {{ producto.precio }}
+            </h3>
+
+            <ion-button
+              size="small"
+              (click)="agregarAlCarrito(producto)">
+
+              Añadir al carrito
+
+            </ion-button>
+
+          </div>
+
+          <!-- PINCH-TO-ZOOM -->
+
+          <div class="contenedor-imagen">
+
+            <img
+              [src]="producto.imagen"
+              [alt]="producto.nombre"
+              class="producto-imagen"
+              [style.transform]="'scale(' + (zoom[producto.id] || 1) + ')'"
+              (touchstart)="iniciarZoom($event, producto.id)"
+              (touchmove)="moverZoom($event, producto.id)"
+              (touchend)="terminarZoom($event)"
+              (touchcancel)="terminarZoom($event)"
+            />
+
+            @if ((zoom[producto.id] || 1) > 1.05) {
+
+              <ion-button
+                size="small"
+                fill="outline"
+                (click)="restablecerZoom(producto.id)">
+
+                Restablecer
+
+              </ion-button>
+
+            }
+
+          </div>
+
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  }
+
+</ion-content>

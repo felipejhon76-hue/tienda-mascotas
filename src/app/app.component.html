@@ -1,0 +1,117 @@
+
+<ion-app>
+
+  <ion-split-pane
+    contentId="main-content"
+    when="lg">
+
+    <!-- MENU LATERAL -->
+
+    <ion-menu
+      menuId="menu-principal"
+      contentId="main-content"
+      type="overlay">
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Menú principal</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+
+        <!-- LOGO Y NOMBRE -->
+
+        <div class="menu-logo">
+
+          <ion-icon name="paw-outline"></ion-icon>
+
+          <div>
+            <h2>Tienda de Mascotas</h2>
+            <p>Todo para tu mejor amigo</p>
+          </div>
+
+        </div>
+
+        <!-- OPCIONES DE NAVEGACION -->
+
+        <ion-list>
+
+          <ion-menu-toggle auto-hide="false">
+
+            <ion-item
+              button
+              routerLink="/home"
+              routerDirection="root"
+              detail="false">
+
+              <ion-icon
+                name="paw-outline"
+                slot="start">
+              </ion-icon>
+
+              <ion-label>
+                Catálogo
+              </ion-label>
+
+            </ion-item>
+
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+
+            <ion-item
+              button
+              routerLink="/carrito"
+              routerDirection="root"
+              detail="false">
+
+              <ion-icon
+                name="cart-outline"
+                slot="start">
+              </ion-icon>
+
+              <ion-label>
+                Mi carrito
+              </ion-label>
+
+            </ion-item>
+
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+
+            <ion-item
+              button
+              routerLink="/finalizar"
+              routerDirection="root"
+              detail="false">
+
+              <ion-icon
+                name="receipt-outline"
+                slot="start">
+              </ion-icon>
+
+              <ion-label>
+                Finalizar compra
+              </ion-label>
+
+            </ion-item>
+
+          </ion-menu-toggle>
+
+        </ion-list>
+
+      </ion-content>
+
+    </ion-menu>
+
+    <!-- PANTALLAS DE LA APLICACION -->
+
+    <ion-router-outlet
+      id="main-content">
+    </ion-router-outlet>
+
+  </ion-split-pane>
+
+</ion-app>

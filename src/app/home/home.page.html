@@ -2,7 +2,7 @@
 <ion-header>
   <ion-toolbar>
 
-    <!-- BOTON DEL MENU -->
+    <!-- MENU LATERAL -->
 
     <ion-buttons slot="start">
       <ion-menu-button
@@ -17,7 +17,7 @@
 
 <ion-content class="ion-padding">
 
-  <!-- PULL-TO-REFRESH -->
+  <!-- GESTO PULL-TO-REFRESH -->
 
   <ion-refresher
     slot="fixed"
@@ -31,7 +31,7 @@
 
   </ion-refresher>
 
-  <!-- CATALOGO -->
+  <!-- TITULO -->
 
   <h2 class="titulo-catalogo">
     Catálogo de productos
@@ -65,7 +65,7 @@
 
   </div>
 
-  <!-- IR AL CARRITO -->
+  <!-- BOTON NORMAL DEL CARRITO -->
 
   <ion-button
     expand="block"
@@ -80,13 +80,14 @@
   @for (producto of tienda.productos; track producto.id) {
 
     <ion-card>
+
       <ion-card-content>
 
         <div class="producto">
 
           <div class="producto-info">
 
-            <!-- LONG-PRESS -->
+            <!-- GESTO LONG-PRESS -->
 
             <div
               style="user-select: none; -webkit-user-select: none; touch-action: pan-y;"
@@ -117,7 +118,7 @@
 
           </div>
 
-          <!-- PINCH-TO-ZOOM -->
+          <!-- GESTO PINCH-TO-ZOOM -->
 
           <div class="contenedor-imagen">
 
@@ -150,8 +151,27 @@
         </div>
 
       </ion-card-content>
+
     </ion-card>
 
   }
+
+  <!-- BOTON FLOTANTE DEL CARRITO -->
+
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end">
+
+    <ion-fab-button
+      routerLink="/carrito"
+      aria-label="Abrir mi carrito"
+      style="--background: #1f8a8a; --color: #ffffff;">
+
+      <ion-icon name="cart-outline"></ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
 
 </ion-content>

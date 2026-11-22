@@ -17,10 +17,18 @@ import {
   IonLabel,
   IonInput,
   IonTextarea,
-  IonButton
+  IonButton,
+  IonFab,
+  IonFabButton,
+  IonIcon
 } from '@ionic/angular';
 
-import { TiendaService } from '../services/tienda.service';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
+
+import {
+  TiendaService
+} from '../services/tienda.service';
 
 @Component({
   selector: 'app-finalizar',
@@ -41,11 +49,15 @@ import { TiendaService } from '../services/tienda.service';
     IonLabel,
     IonInput,
     IonTextarea,
-    IonButton
+    IonButton,
+    IonFab,
+    IonFabButton,
+    IonIcon
   ],
   template: `
     <ion-header>
       <ion-toolbar>
+
         <ion-buttons slot="start">
           <ion-back-button
             defaultHref="/carrito">
@@ -53,10 +65,13 @@ import { TiendaService } from '../services/tienda.service';
         </ion-buttons>
 
         <ion-title>Finalizar compra</ion-title>
+
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
+
+      <!-- PEDIDO CONFIRMADO -->
 
       @if (pedidoConfirmado) {
 
@@ -95,6 +110,8 @@ import { TiendaService } from '../services/tienda.service';
 
       } @else if (tienda.carrito.length === 0) {
 
+        <!-- CARRITO VACIO -->
+
         <h2>Tu carrito está vacío</h2>
 
         <p>
@@ -111,6 +128,8 @@ import { TiendaService } from '../services/tienda.service';
         </ion-button>
 
       } @else {
+
+        <!-- DATOS DE ENTREGA -->
 
         <h2>Datos de entrega</h2>
 
@@ -156,6 +175,8 @@ import { TiendaService } from '../services/tienda.service';
 
           </ion-card-content>
         </ion-card>
+
+        <!-- RESUMEN -->
 
         <h2>Resumen del pedido</h2>
 
@@ -214,6 +235,29 @@ import { TiendaService } from '../services/tienda.service';
           Esta es una compra de demostración.
           No se realizará ningún pago ni envío real.
         </p>
+
+      }
+
+      <!-- BOTON FLOTANTE PARA VOLVER AL CARRITO -->
+
+      @if (!pedidoConfirmado) {
+
+        <ion-fab
+          slot="fixed"
+          vertical="bottom"
+          horizontal="end">
+
+          <ion-fab-button
+            routerLink="/carrito"
+            aria-label="Volver al carrito">
+
+            <ion-icon
+              name="arrow-back-outline">
+            </ion-icon>
+
+          </ion-fab-button>
+
+        </ion-fab>
 
       }
 
@@ -285,6 +329,11 @@ import { TiendaService } from '../services/tienda.service';
       margin-top: 18px;
     }
 
+    ion-fab-button {
+      --background: #1f8a8a;
+      --color: #ffffff;
+    }
+
     .mensaje-error {
       color: #b3261e;
       font-weight: bold;
@@ -333,7 +382,9 @@ export class FinalizarPage {
   nombreConfirmado = '';
   totalConfirmado = 0;
 
-  constructor(public tienda: TiendaService) {}
+  constructor(public tienda: TiendaService) {
+    addIcons({ arrowBackOutline });
+  }
 
   confirmarPedido() {
     this.error = '';

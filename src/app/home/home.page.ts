@@ -15,9 +15,15 @@ import {
   IonBadge,
   IonRefresher,
   IonRefresherContent,
+  IonFab,
+  IonFabButton,
+  IonIcon,
   ActionSheetController,
   AlertController
 } from '@ionic/angular';
+
+import { addIcons } from 'ionicons';
+import { cartOutline } from 'ionicons/icons';
 
 import {
   Producto,
@@ -42,7 +48,10 @@ import {
     IonButton,
     IonBadge,
     IonRefresher,
-    IonRefresherContent
+    IonRefresherContent,
+    IonFab,
+    IonFabButton,
+    IonIcon
   ]
 })
 export class HomePage implements OnDestroy {
@@ -51,7 +60,9 @@ export class HomePage implements OnDestroy {
     public tienda: TiendaService,
     private actionSheetController: ActionSheetController,
     private alertController: AlertController
-  ) {}
+  ) {
+    addIcons({ cartOutline });
+  }
 
   mensajeActualizacion = '';
 

@@ -1,0 +1,224 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- MENU LATERAL -->
+
+    <ion-buttons slot="start">
+      <ion-menu-button menu="menu-principal"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Mis mascotas</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- GESTO PULL-TO-REFRESH: sincroniza los recordatorios -->
+
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="sincronizarRecordatorios($event)">
+
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para sincronizar recordatorios"
+      refreshingSpinner="dots"
+      refreshingText="Consultando a la veterinaria...">
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+  <!-- TITULO -->
+
+  <h2 class="titulo">Mis mascotas</h2>
+
+  <p class="instruccion">
+    Desliza a la izquierda para eliminar y a la derecha
+    para marcar la vacuna.
+  </p>
+
+  <!-- LISTA CON GESTO SWIPE -->
+
+  @if (cuenta.mascotas().length === 0) {
+
+    <ion-card>
+      <ion-card-content class="vacio">
+
+        <h3>No tienes mascotas registradas</h3>
+
+        <p>Toca el botón + para agregar la primera.</p>
+
+      </ion-card-content>
+    </ion-card>
+
+  } @else {
+
+    <ion-list class="lista-mascotas">
+
+      @for (mascota of cuenta.mascotas(); track mascota.id) {
+
+        <ion-item-sliding #deslizable>
+
+          <!-- Swipe a la derecha: vacuna -->
+
+          <ion-item-options side="start">
+
+            <ion-item-option
+              class="opcion-vacuna"
+              (click)="marcarVacuna(mascota, deslizable)">
+
+              <ion-icon slot="top" name="medkit-outline"></ion-icon>
+              {{ mascota.vacunaAlDia ? 'Pendiente' : 'Vacunada' }}
+
+            </ion-item-option>
+
+          </ion-item-options>
+
+          <ion-item>
+
+            <ion-avatar slot="start" class="avatar-mascota">
+              <span>{{ emoji(mascota.especie) }}</span>
+            </ion-avatar>
+
+            <ion-label>
+
+              <h2>{{ mascota.nombre }}</h2>
+
+              <p>{{ mascota.especie }} · {{ mascota.raza }} · {{ mascota.edad }}</p>
+
+              <p>Próxima vacuna: {{ mascota.proximaVacuna }}</p>
+
+            </ion-label>
+
+            <ion-badge
+              slot="end"
+              [class.al-dia]="mascota.vacunaAlDia"
+              [class.pendiente]="!mascota.vacunaAlDia">
+
+              {{ mascota.vacunaAlDia ? 'Al día' : 'Pendiente' }}
+
+            </ion-badge>
+
+          </ion-item>
+
+          <!-- Swipe a la izquierda: eliminar (swipe completo = ionSwipe) -->
+
+          <ion-item-options
+            side="end"
+            (ionSwipe)="eliminarMascota(mascota)">
+
+            <ion-item-option
+              color="danger"
+              expandable
+              (click)="eliminarMascota(mascota)">
+
+              <ion-icon slot="top" name="trash-outline"></ion-icon>
+              Eliminar
+
+            </ion-item-option>
+
+          </ion-item-options>
+
+        </ion-item-sliding>
+
+      }
+
+    </ion-list>
+
+  }
+
+  <!-- RECORDATORIOS (se actualizan con pull-to-refresh) -->
+
+  <ion-card class="tarjeta-recordatorios">
+
+    <ion-card-header>
+      <ion-card-title>Próximos recordatorios</ion-card-title>
+      <ion-card-subtitle>
+        Última sincronización: {{ horaSincronizacion() }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-list lines="none">
+
+        @for (recordatorio of cuenta.recordatorios(); track recordatorio.id + recordatorio.texto) {
+
+          <ion-item>
+            <ion-icon slot="start" [name]="recordatorio.icono"></ion-icon>
+            <ion-label>{{ recordatorio.texto }}</ion-label>
+            <span slot="end" class="fecha">{{ recordatorio.fecha }}</span>
+          </ion-item>
+
+        } @empty {
+
+          <ion-item>
+            <ion-icon slot="start" name="notifications-outline"></ion-icon>
+            <ion-label>No tienes recordatorios pendientes</ion-label>
+          </ion-item>
+
+        }
+
+      </ion-list>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- PRODUCTOS RECOMENDADOS (abren el detalle) -->
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>Recomendados para tus mascotas</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-list lines="none">
+
+        @for (producto of tienda.productos; track producto.id) {
+
+          <ion-item
+            button
+            detail="true"
+            [routerLink]="['/producto', producto.id]">
+
+            <ion-thumbnail slot="start">
+              <img [src]="producto.imagen" [alt]="producto.nombre" />
+            </ion-thumbnail>
+
+            <ion-label>
+              <h3>{{ producto.nombre }}</h3>
+              <p>RD$ {{ producto.precio }}</p>
+            </ion-label>
+
+          </ion-item>
+
+        }
+
+      </ion-list>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- BOTON FLOTANTE: AGREGAR MASCOTA -->
+
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end">
+
+    <ion-fab-button
+      aria-label="Agregar mascota"
+      (click)="agregarMascota()">
+
+      <ion-icon name="add"></ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+</ion-content>

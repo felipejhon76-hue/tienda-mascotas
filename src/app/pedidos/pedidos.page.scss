@@ -1,0 +1,197 @@
+/* ENCABEZADO Y FONDO */
+
+ion-toolbar {
+  --background: #1f8a8a;
+  --color: #ffffff;
+}
+
+ion-content {
+  --background: #f5f7f8;
+  --color: #20292c;
+}
+
+/* TITULOS */
+
+.titulo {
+  color: #20292c;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 20px 0 6px;
+}
+
+.instruccion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #59666b;
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.instruccion ion-icon {
+  color: #1f8a8a;
+  font-size: 18px;
+}
+
+/* FILTRO */
+
+ion-segment {
+  --background: #e2f3f1;
+  margin-bottom: 8px;
+}
+
+ion-segment-button {
+  --color: #59666b;
+  --color-checked: #1f7777;
+  --indicator-color: #1f8a8a;
+  text-transform: none;
+  font-weight: bold;
+}
+
+/* TARJETAS DE PEDIDOS */
+
+.tarjeta-pedido {
+  --background: #ffffff;
+  --color: #20292c;
+  border-radius: 16px;
+  margin: 14px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Evita que el long-press seleccione texto o abra el menú del navegador */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Efecto mientras se mantiene presionado */
+.tarjeta-pedido.presionando {
+  transform: scale(0.97);
+  box-shadow: 0 0 0 3px #1f8a8a, 0 8px 18px rgba(31, 138, 138, 0.25);
+}
+
+.cabecera-pedido {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cabecera-pedido > div {
+  flex: 1;
+}
+
+ion-card-title {
+  color: #20292c;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+ion-card-subtitle {
+  color: #59666b;
+  text-transform: none;
+}
+
+.boton-opciones {
+  --color: #59666b;
+  margin: 0;
+}
+
+/* ESTADOS */
+
+ion-badge {
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+ion-badge.estado-preparando { --background: #f2a93b; --color: #20292c; }
+ion-badge.estado-en-camino  { --background: #1f8a8a; --color: #ffffff; }
+ion-badge.estado-entregado  { --background: #2e9b5b; --color: #ffffff; }
+ion-badge.estado-cancelado  { --background: #8a9599; --color: #ffffff; }
+
+ion-progress-bar {
+  width: calc(100% - 32px);
+  height: 6px;
+  margin: 0 16px;
+  border-radius: 3px;
+  --background: #e2f3f1;
+}
+
+ion-progress-bar.estado-preparando { --progress-background: #f2a93b; }
+ion-progress-bar.estado-en-camino  { --progress-background: #1f8a8a; }
+ion-progress-bar.estado-entregado  { --progress-background: #2e9b5b; }
+ion-progress-bar.estado-cancelado  { --progress-background: #8a9599; }
+
+/* RESUMEN Y DETALLE */
+
+.resumen-pedido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  color: #59666b;
+}
+
+.resumen-pedido strong {
+  color: #1f7777;
+  font-size: 18px;
+}
+
+.lineas {
+  background: transparent;
+  margin-top: 10px;
+}
+
+.lineas ion-item {
+  --background: #f5f7f8;
+  --color: #20292c;
+  --border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+.lineas ion-thumbnail {
+  --border-radius: 8px;
+  background: #ffffff;
+}
+
+.lineas ion-thumbnail img {
+  object-fit: contain;
+}
+
+.lineas h3 {
+  font-weight: bold;
+  color: #20292c;
+}
+
+.direccion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #59666b;
+  font-size: 14px;
+}
+
+.direccion ion-icon {
+  color: #1f8a8a;
+}
+
+.boton-detalle {
+  --color: #1f8a8a;
+  text-transform: none;
+  font-weight: bold;
+  margin: 4px 0 0 -8px;
+}
+
+/* BOTON FLOTANTE */
+
+ion-fab-button {
+  --background: #1f8a8a;
+  --background-activated: #1f7777;
+  --color: #ffffff;
+}
+
+/* Espacio para que el FAB no tape la última tarjeta */
+
+.tarjeta-pedido:last-of-type {
+  margin-bottom: 90px;
+}

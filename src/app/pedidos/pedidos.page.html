@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- MENU LATERAL -->
+
+    <ion-buttons slot="start">
+      <ion-menu-button menu="menu-principal"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Mis pedidos</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- TITULO -->
+
+  <h2 class="titulo">Mis pedidos</h2>
+
+  <p class="instruccion">
+    <ion-icon name="hand-left-outline"></ion-icon>
+    Mantén presionado un pedido para ver sus opciones.
+  </p>
+
+  <!-- FILTRO -->
+
+  <ion-segment
+    [value]="filtro()"
+    (ionChange)="cambiarFiltro($event.detail.value)">
+
+    <ion-segment-button value="todos">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="activos">
+      <ion-label>En proceso</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="historial">
+      <ion-label>Historial</ion-label>
+    </ion-segment-button>
+
+  </ion-segment>
+
+  <!-- TARJETAS DE PEDIDOS (GESTO LONG-PRESS) -->
+
+  @for (pedido of pedidosFiltrados(); track pedido.id) {
+
+    <ion-card
+      #tarjetaPedido
+      class="tarjeta-pedido"
+      [attr.data-pedido]="pedido.id"
+      [class.presionando]="presionado() === pedido.id"
+      (contextmenu)="alMenuContextual($event, pedido)">
+
+      <ion-card-header>
+
+        <div class="cabecera-pedido">
+
+          <div>
+            <ion-card-title>Pedido #{{ pedido.id }}</ion-card-title>
+            <ion-card-subtitle>{{ pedido.fecha }}</ion-card-subtitle>
+          </div>
+
+          <ion-badge [class]="claseEstado(pedido.estado)">
+            {{ pedido.estado }}
+          </ion-badge>
+
+          <!-- Alternativa sin gesto -->
+
+          <ion-button
+            fill="clear"
+            class="boton-opciones"
+            aria-label="Opciones del pedido"
+            (click)="abrirOpcionesConBoton(pedido)">
+
+            <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+
+          </ion-button>
+
+        </div>
+
+      </ion-card-header>
+
+      <ion-progress-bar
+        [value]="progreso(pedido.estado)"
+        [class]="claseEstado(pedido.estado)">
+      </ion-progress-bar>
+
+      <ion-card-content>
+
+        <div class="resumen-pedido">
+
+          <span>
+            {{ cuenta.cantidadProductos(pedido) }} producto(s)
+          </span>
+
+          <strong>
+            RD$ {{ cuenta.totalPedido(pedido) }}
+          </strong>
+
+        </div>
+
+        <!-- DETALLE DESPLEGABLE -->
+
+        @if (expandido() === pedido.id) {
+
+          <ion-list lines="none" class="lineas">
+
+            @for (linea of pedido.lineas; track linea.productoId) {
+
+              <ion-item
+                button
+                detail="true"
+                (click)="verProducto(linea.productoId)">
+
+                <ion-thumbnail slot="start">
+                  <img [src]="imagenDe(linea.productoId)" [alt]="linea.nombre" />
+                </ion-thumbnail>
+
+                <ion-label>
+                  <h3>{{ linea.nombre }}</h3>
+                  <p>{{ linea.cantidad }} × RD$ {{ linea.precio }}</p>
+                </ion-label>
+
+              </ion-item>
+
+            }
+
+          </ion-list>
+
+          <p class="direccion">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ pedido.direccion }}
+          </p>
+
+        }
+
+        <ion-button
+          fill="clear"
+          size="small"
+          class="boton-detalle"
+          (click)="alPulsarVerProductos(pedido.id)">
+
+          {{ expandido() === pedido.id ? 'Ocultar productos' : 'Ver productos' }}
+
+          <ion-icon
+            slot="end"
+            [name]="expandido() === pedido.id ? 'chevron-up-outline' : 'chevron-down-outline'">
+          </ion-icon>
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  } @empty {
+
+    <ion-card>
+      <ion-card-content>
+        <h3>No hay pedidos en esta sección</h3>
+      </ion-card-content>
+    </ion-card>
+
+  }
+
+  <!-- BOTON FLOTANTE: NUEVO PEDIDO -->
+
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end">
+
+    <ion-fab-button
+      aria-label="Hacer un nuevo pedido"
+      routerLink="/home">
+
+      <ion-icon name="add"></ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+</ion-content>

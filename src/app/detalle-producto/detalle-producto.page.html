@@ -1,0 +1,175 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/mascotas"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Detalle del producto</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (producto) {
+
+    <!-- TARJETA PRINCIPAL CON EL VISOR DE ZOOM -->
+
+    <ion-card class="tarjeta-producto">
+
+      <!-- GESTO PINCH / ZOOM -->
+
+      <div
+        #visor
+        class="visor"
+        (pointerdown)="alPresionar($event)"
+        (pointermove)="alMover($event)"
+        (pointerup)="alSoltar($event)"
+        (pointercancel)="alSoltar($event)">
+
+        <img
+          [src]="producto.imagen"
+          [alt]="producto.nombre"
+          draggable="false"
+          [class.animando]="animando()"
+          [style.transform]="transformacion()" />
+
+        <span class="indicador-zoom">x{{ escala().toFixed(1) }}</span>
+
+      </div>
+
+      <p class="ayuda-zoom">
+        <ion-icon name="expand-outline"></ion-icon>
+        Pellizca para ampliar · doble toque para acercar
+      </p>
+
+      <!-- Botones de zoom (sin gesto) -->
+
+      <div class="controles-zoom">
+
+        <ion-button fill="outline" size="small" aria-label="Alejar" (click)="alejar()">
+          <ion-icon slot="icon-only" name="remove"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="outline" size="small" aria-label="Restablecer zoom" (click)="restablecerZoom()">
+          <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="outline" size="small" aria-label="Acercar" (click)="acercar()">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+
+      </div>
+
+      <ion-card-header>
+        <ion-card-subtitle>{{ ficha?.categoria }}</ion-card-subtitle>
+        <ion-card-title>{{ producto.nombre }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p class="descripcion">{{ producto.descripcion }}</p>
+
+        <h2 class="precio">RD$ {{ producto.precio }}</h2>
+
+        <div class="chips">
+          <ion-chip>
+            <ion-icon name="paw-outline"></ion-icon>
+            <ion-label>{{ ficha?.idealPara }}</ion-label>
+          </ion-chip>
+        </div>
+
+        <ion-button expand="block" (click)="agregarAlCarrito()">
+          <ion-icon slot="start" name="cart-outline"></ion-icon>
+          Añadir al carrito
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <!-- FICHA TECNICA -->
+
+    @if (ficha) {
+
+      <ion-list class="ficha" lines="full">
+
+        <ion-list-header>
+          <ion-label>Ficha técnica</ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-icon slot="start" name="pricetag-outline"></ion-icon>
+          <ion-label>Categoría</ion-label>
+          <ion-note slot="end">{{ ficha.categoria }}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon slot="start" name="cube-outline"></ion-icon>
+          <ion-label>Presentación</ion-label>
+          <ion-note slot="end">{{ ficha.presentacion }}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon slot="start" name="paw-outline"></ion-icon>
+          <ion-label>Ideal para</ion-label>
+          <ion-note slot="end">{{ ficha.idealPara }}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+          <ion-label>Disponibilidad</ion-label>
+          <ion-note slot="end">{{ ficha.disponibilidad }}</ion-note>
+        </ion-item>
+
+      </ion-list>
+
+    }
+
+    <!-- BOTON FLOTANTE CON ACCIONES RAPIDAS -->
+
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="end">
+
+      <ion-fab-button aria-label="Acciones rápidas">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-list side="top">
+
+        <ion-fab-button aria-label="Añadir al carrito" (click)="agregarAlCarrito()">
+          <ion-icon name="cart-outline"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button aria-label="Guardar en favoritos" (click)="alternarFavorito()">
+          <ion-icon [name]="favorito() ? 'heart' : 'heart-outline'"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button aria-label="Ver mi carrito" routerLink="/carrito">
+          <ion-icon name="bag-handle-outline"></ion-icon>
+        </ion-fab-button>
+
+      </ion-fab-list>
+
+    </ion-fab>
+
+  } @else {
+
+    <ion-card>
+      <ion-card-content>
+
+        <h3>No encontramos este producto</h3>
+
+        <ion-button expand="block" routerLink="/home">
+          Volver al catálogo
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+  }
+
+</ion-content>

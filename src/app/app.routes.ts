@@ -29,6 +29,27 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'mascotas',
+    loadComponent: () =>
+      import('./mascotas/mascotas.page').then(
+        m => m.MascotasPage
+      )
+  },
+  {
+    path: 'producto/:id',
+    loadComponent: () =>
+      import('./detalle-producto/detalle-producto.page').then(
+        m => m.DetalleProductoPage
+      )
+  },
+  {
+    path: 'pedidos',
+    loadComponent: () =>
+      import('./pedidos/pedidos.page').then(
+        m => m.PedidosPage
+      )
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

@@ -33,9 +33,13 @@
 
         </div>
 
-        <!-- OPCIONES DE NAVEGACION -->
+        <!-- SECCION TIENDA -->
 
         <ion-list>
+
+          <ion-list-header>
+            <ion-label>Tienda</ion-label>
+          </ion-list-header>
 
           <ion-menu-toggle auto-hide="false">
 
@@ -43,6 +47,7 @@
               button
               routerLink="/home"
               routerDirection="root"
+              routerLinkActive="opcion-activa"
               detail="false">
 
               <ion-icon
@@ -64,6 +69,7 @@
               button
               routerLink="/carrito"
               routerDirection="root"
+              routerLinkActive="opcion-activa"
               detail="false">
 
               <ion-icon
@@ -75,6 +81,10 @@
                 Mi carrito
               </ion-label>
 
+              @if (tienda.cantidadCarrito > 0) {
+                <ion-badge slot="end">{{ tienda.cantidadCarrito }}</ion-badge>
+              }
+
             </ion-item>
 
           </ion-menu-toggle>
@@ -85,6 +95,7 @@
               button
               routerLink="/finalizar"
               routerDirection="root"
+              routerLinkActive="opcion-activa"
               detail="false">
 
               <ion-icon
@@ -100,9 +111,74 @@
 
           </ion-menu-toggle>
 
+          <!-- SECCION MI CUENTA -->
+
+          <ion-list-header>
+            <ion-label>Mi cuenta</ion-label>
+          </ion-list-header>
+
+          <ion-menu-toggle auto-hide="false">
+
+            <ion-item
+              button
+              routerLink="/mascotas"
+              routerDirection="root"
+              routerLinkActive="opcion-activa"
+              detail="false">
+
+              <ion-icon
+                name="heart-outline"
+                slot="start">
+              </ion-icon>
+
+              <ion-label>
+                Mis mascotas
+              </ion-label>
+
+              <ion-badge slot="end">{{ cuenta.mascotas().length }}</ion-badge>
+
+            </ion-item>
+
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+
+            <ion-item
+              button
+              routerLink="/pedidos"
+              routerDirection="root"
+              routerLinkActive="opcion-activa"
+              detail="false">
+
+              <ion-icon
+                name="cube-outline"
+                slot="start">
+              </ion-icon>
+
+              <ion-label>
+                Mis pedidos
+              </ion-label>
+
+              @if (cuenta.pedidosActivos() > 0) {
+                <ion-badge slot="end">{{ cuenta.pedidosActivos() }} en proceso</ion-badge>
+              }
+
+            </ion-item>
+
+          </ion-menu-toggle>
+
         </ion-list>
 
       </ion-content>
+
+      <!-- PIE DEL MENU -->
+
+      <ion-footer class="menu-pie">
+        <p>
+          <ion-icon name="time-outline"></ion-icon>
+          Atención: lunes a sábado, 8 a. m. a 6 p. m.
+        </p>
+      </ion-footer>
 
     </ion-menu>
 
